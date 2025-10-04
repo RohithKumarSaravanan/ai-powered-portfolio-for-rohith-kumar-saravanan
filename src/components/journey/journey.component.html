@@ -1,0 +1,22 @@
+<div class="h-full overflow-y-auto pr-2">
+  <div class="relative border-l-2 border-slate-700 ml-4 pl-8 space-y-10">
+    @for (item of journeyData; track item.id; let isFirst = $first) {
+      <div class="relative">
+        <div class="absolute -left-11 top-1 w-8 h-8 rounded-full bg-slate-800 flex items-center justify-center ring-4 ring-slate-900">
+            <i class="fas {{ item.icon }} text-sm" [class.text-violet-400]="isFirst" [class.text-slate-400]="!isFirst"></i>
+        </div>
+        <div class="flex items-start space-x-4">
+          <div class="w-12 h-12 p-1 bg-white rounded-md flex-shrink-0 mt-1 flex items-center justify-center">
+            <img [src]="item.logoUrl" [alt]="item.institution + ' logo'" class="max-w-full max-h-full object-contain">
+          </div>
+          <div>
+            <p class="text-xs text-slate-400 font-mono">{{ item.date }}</p>
+            <h3 class="text-md font-semibold text-white mt-1">{{ item.title }}</h3>
+            <h4 class="text-sm text-slate-300">{{ item.institution }}</h4>
+            <p class="text-xs text-slate-400 mt-2">{{ item.description }}</p>
+          </div>
+        </div>
+      </div>
+    }
+  </div>
+</div>

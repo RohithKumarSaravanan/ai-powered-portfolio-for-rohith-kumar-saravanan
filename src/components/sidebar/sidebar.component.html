@@ -1,0 +1,24 @@
+<nav class="w-full flex justify-center items-center h-20 z-50">
+  <div class="flex items-end h-16 space-x-2 bg-slate-900/40 backdrop-blur-md border border-slate-700/50 rounded-2xl px-4 pb-2 shadow-2xl">
+    @for (app of apps(); track app.id) {
+      <div class="relative group flex flex-col items-center">
+        <span class="absolute -top-8 text-sm bg-slate-800 text-white px-2 py-1 rounded-md opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none">
+          {{ app.name }}
+        </span>
+        <button
+          (click)="onOpen(app.id)"
+          class="w-14 h-14 flex items-center justify-center rounded-xl transition-all duration-200 ease-out group-hover:scale-125 group-hover:-translate-y-2 group-hover:bg-slate-700/50"
+          [attr.aria-label]="'Open ' + app.name"
+        >
+          <i class="fas {{ app.icon }} text-2xl text-slate-200"></i>
+        </button>
+        <!-- Active indicator dot -->
+        <div 
+          class="w-1.5 h-1.5 bg-sky-400 rounded-full mt-1.5 transition-opacity duration-300"
+          [class.opacity-100]="openWindowsMap()[app.id]"
+          [class.opacity-0]="!openWindowsMap()[app.id]">
+        </div>
+      </div>
+    }
+  </div>
+</nav>

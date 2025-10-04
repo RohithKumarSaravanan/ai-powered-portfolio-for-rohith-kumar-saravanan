@@ -1,0 +1,29 @@
+<div class="h-screen w-screen flex flex-col font-sans">
+  <!-- Desktop Area -->
+  <main class="flex-1 relative overflow-hidden">
+    @for(window of windows(); track window.id) {
+      <app-window 
+        [windowInstance]="window"
+        [isActive]="window.zIndex === highestZIndex()"
+        (close)="closeWindow(window.id)"
+        (focus)="focusWindow(window.id)"
+        (positionChange)="updateWindowPosition($event)"
+        (sizeChange)="updateWindowSize($event)"
+        (maximize)="toggleMaximizeWindow(window.id)">
+        
+        <!-- Content Projection based on window id -->
+        @switch (window.id) {
+          @case ('home') { <app-home></app-home> }
+          @case ('journey') { <app-journey></app-journey> }
+          @case ('skills') { <app-skills></app-skills> }
+          @case ('projects') { <app-projects></app-projects> }
+          @case ('ai-assistant') { <app-ai-assistant></app-ai-assistant> }
+          @case ('contact') { <app-contact></app-contact> }
+        }
+      </app-window>
+    }
+  </main>
+
+  <!-- Dock -->
+  <app-dock [apps]="apps" [openWindowsMap]="openWindowsMap()" (open)="openApp($event)"></app-dock>
+</div>

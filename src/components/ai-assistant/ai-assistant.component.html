@@ -1,0 +1,63 @@
+<div class="bg-black/80 rounded-md p-3 flex flex-col h-full font-mono text-sm">
+  <div class="flex-shrink-0 text-green-400 mb-2">
+    <p>> RohithOS v1.0 AI Terminal</p>
+    <p>> Type 'help' for available commands (or just ask a question!).</p>
+  </div>
+  
+  <div #scrollContainer class="flex-grow overflow-y-auto pr-2 space-y-2">
+    <!-- Initial message from AI -->
+    @if(messages().length === 0) {
+      <div class="flex">
+        <span class="text-cyan-400 mr-2">model:~$</span>
+        <p class="text-slate-300 flex-1 whitespace-pre-wrap">Hello! I'm Rohith's AI assistant. Ask about his skills, projects, or experience.</p>
+      </div>
+    }
+
+    <!-- Chat messages -->
+    @for(message of messages(); track $index) {
+      <div class="flex">
+        @if (message.role === 'model') {
+          <span class="text-cyan-400 mr-2">model:~$</span>
+          <p class="text-slate-300 flex-1 whitespace-pre-wrap">{{ message.parts[0].text }}</p>
+        } @else {
+          <span class="text-green-400 mr-2">user:~$</span>
+          <p class="text-white flex-1">{{ message.parts[0].text }}</p>
+        }
+      </div>
+    }
+
+     @if (isLoading() && messages()[messages().length -1]?.parts[0]?.text === '') {
+      <div class="flex">
+        <span class="text-cyan-400 mr-2">model:~$</span>
+        <div class="flex items-center space-x-1 pt-2">
+            <span class="w-1.5 h-1.5 bg-slate-400 rounded-full animate-pulse [animation-delay:-0.3s]"></span>
+            <span class="w-1.5 h-1.5 bg-slate-400 rounded-full animate-pulse [animation-delay:-0.15s]"></span>
+            <span class="w-1.5 h-1.5 bg-slate-400 rounded-full animate-pulse"></span>
+        </div>
+      </div>
+    }
+
+    @if (error()) {
+       <div class="flex">
+        <span class="text-red-500 mr-2">error:~$</span>
+        <p class="text-red-400 flex-1">{{ error() }}</p>
+      </div>
+    }
+  </div>
+  
+  <div class="flex-shrink-0 mt-2">
+    <form (submit)="sendMessage()">
+      <div class="flex items-center">
+        <span class="text-green-400 mr-2">user:~$</span>
+        <input 
+          type="text" 
+          [(ngModel)]="userInput" 
+          name="userInput"
+          class="w-full bg-transparent text-white focus:outline-none"
+          [disabled]="isLoading()"
+          autocomplete="off"
+          autofocus>
+      </div>
+    </form>
+  </div>
+</div>
